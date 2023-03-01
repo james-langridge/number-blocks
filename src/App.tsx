@@ -1,24 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
+function shuffleArray(arr: number[]) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
 function App() {
-  return (
+    function clickHandler() {
+        console.log('clicked')
+    }
+
+    const numSquares = 8;
+    const gridSquares = [];
+    const numbers = [];
+
+    for (let i = 0; i < numSquares; i++) {
+        numbers.push(i+1);
+    }
+
+    const shuffledNumbers = shuffleArray(numbers)
+
+    for (let i = 0; i < numSquares; i++) {
+        gridSquares.push(<div key={i} className="grid-item" onClick={clickHandler}>{shuffledNumbers[i]}</div>);
+    }
+
+    return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="grid-container">
+          {gridSquares}
+      </div>
     </div>
   );
 }
