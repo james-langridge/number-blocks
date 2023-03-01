@@ -1,37 +1,53 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 
-function shuffleArray(arr: number[]) {
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-}
-
-function App() {
-    function clickHandler() {
-        console.log('clicked')
-    }
-
-    const numSquares = 8;
-    const gridSquares = [];
+function generateShuffledNumArr({numSquares = 8}) {
     const numbers = [];
 
     for (let i = 0; i < numSquares; i++) {
         numbers.push(i+1);
     }
 
-    const shuffledNumbers = shuffleArray(numbers)
+    for (let i = numbers.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+    }
 
-    for (let i = 0; i < numSquares; i++) {
-        gridSquares.push(<div key={i} className="grid-item" onClick={clickHandler}>{shuffledNumbers[i]}</div>);
+    return numbers
+}
+
+function App() {
+    const [currentNum, setCurrentNum] = useState(1);
+    const [shuffledNumbers, setShuffledNumbers] = useState(() => generateShuffledNumArr({}))
+
+    function clickHandler(event: React.MouseEvent) {
+        const clickedNum = Number(event.currentTarget.textContent)
+
+        if (clickedNum < currentNum) {
+            return
+        }
+
+        if (clickedNum === currentNum) {
+            document.getElementById(`square-${clickedNum}`)?.classList.add('green')
+
+            if (currentNum === shuffledNumbers.length) {
+                setCurrentNum(1)
+                shuffledNumbers.forEach((val, idx) => {
+                    document.getElementById(`square-${val}`)?.classList.remove('green')
+                })
+                setShuffledNumbers(generateShuffledNumArr({}))
+
+                return
+            }
+
+            setCurrentNum(() => currentNum + 1)
+        }
     }
 
     return (
     <div className="App">
       <div className="grid-container">
-          {gridSquares}
+          {shuffledNumbers.map(val => <div id={`square-${val}`} key={val} className="grid-item" onClick={clickHandler}>{val}</div>)}
       </div>
     </div>
   );
