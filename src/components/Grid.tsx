@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import GridSquare from './GridSquare'
-import {generateShuffledNumArr} from './utils'
+import {generateShuffledNumArr} from '../lib/generateShuffledNumArr'
 
 export default function Grid() {
   const [currentNum, setCurrentNum] = useState(1)
