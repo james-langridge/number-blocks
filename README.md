@@ -1,4 +1,4 @@
-# Number Blocks &middot; [![Netlify Status](https://api.netlify.com/api/v1/badges/3da42858-3dbf-4ce3-ae99-0cd1f56e078c/deploy-status)](https://app.netlify.com/sites/visionary-scone-c0300a/deploys) [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+# Number Blocks &middot; [![Netlify Status](https://api.netlify.com/api/v1/badges/3da42858-3dbf-4ce3-ae99-0cd1f56e078c/deploy-status)](https://app.netlify.com/sites/visionary-scone-c0300a/deploys) [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0) ![This repository is actively maintained](https://img.shields.io/maintenance/yes/2023)
 
 This is a PWA (progressive web app) mobile game built with React and TypeScript.  It can be installed onto the home screen of a mobile device and played offline.  Great for those long flights when you want to sleep and your kid does not.  The name is totally ripped off from its [TV show namesake](https://www.imdb.com/title/tt7978538/).
 
