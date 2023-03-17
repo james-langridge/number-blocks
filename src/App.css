@@ -18,6 +18,14 @@
   font-size: 75px;
   background-color: #306230;
   border-radius: 5px;
+  box-shadow: 2px 2px 0 #0f380f;
+  text-shadow: 1px 1px #0f380f;
+  transition: all 0.1s ease;
+}
+
+.cell:active {
+  box-shadow: 1px 1px 0 #0f380f;
+  transform: translateY(1px) translateX(1px);
 }
 
 .correct {
