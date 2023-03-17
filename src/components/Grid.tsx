@@ -16,12 +16,12 @@ export default function Grid() {
     }
 
     if (clickedNum === currentNum) {
-      document.getElementById(`square-${clickedNum}`)?.classList.add('green')
+      document.getElementById(`square-${clickedNum}`)?.classList.add('correct')
 
       if (currentNum === shuffledNumbers.length) {
         setCurrentNum(1)
         shuffledNumbers.forEach(val => {
-          document.getElementById(`square-${val}`)?.classList.remove('green')
+          document.getElementById(`square-${val}`)?.classList.remove('correct')
         })
         setShuffledNumbers(generateShuffledNumArr())
 
@@ -33,7 +33,7 @@ export default function Grid() {
   }
 
   return (
-    <div className="grid-container">
+    <div className="grid">
       {shuffledNumbers.map(val => (
         <GridSquare key={val} val={val} clickHandler={clickHandler} />
       ))}

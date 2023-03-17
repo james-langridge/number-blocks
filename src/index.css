@@ -1,13 +1,26 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Press Start 2P', monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  background-color: #8bac0f;
+  color: #0f380f;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Game Boy colours */
+.lightest {
+  background-color: #9bbc0f;
+}
+
+.light {
+  background-color: #8bac0f;
+}
+
+.dark {
+  background-color: #306230;
+}
+
+.darkest {
+  background-color: #0f380f;
 }
