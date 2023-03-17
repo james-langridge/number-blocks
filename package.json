@@ -2,7 +2,7 @@
   "name": "number-blocks",
   "author": "James Langridge <l@ngridge.com> (https://github.com/james-langridge)",
   "description": "PWA mobile game for toddlers learning to read numbers and count.",
-  "homepage": "https://github.com/james-langridge/number-blocks",
+  "homepage": "https://visionary-scone-c0300a.netlify.app/",
   "repository": {
     "type": "git",
     "url": "https://github.com/james-langridge/number-blocks.git"
