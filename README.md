@@ -12,7 +12,7 @@ It is designed for mobile, and is not optimised for larger screens.  For best re
 
 ## TODO
 - [ ] Add tests
-- [ ] Improve styling
+- [x] Make styling look fire
 - [ ] Add settings to change:
   - [ ] range of numbers
   - [ ] size of the grid
