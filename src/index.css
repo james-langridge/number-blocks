@@ -6,6 +6,10 @@ body {
   min-height: 100vh;
   background-color: #8bac0f;
   color: #0f380f;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /* Game Boy colours */
