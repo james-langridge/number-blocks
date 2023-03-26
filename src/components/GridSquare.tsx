@@ -13,7 +13,7 @@ export default function GridSquare({
       tabIndex={val}
       id={`square-${val}`}
       key={val}
-      className="cell"
+      className={'cell' + (val === 1 ? ' current' : '')}
       onClick={clickHandler}
       onKeyDown={clickHandler}
     >

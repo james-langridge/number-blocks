@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import GridSquare from './GridSquare'
 import {generateShuffledNumArr} from '../lib/generateShuffledNumArr'
 
@@ -7,6 +7,18 @@ export default function Grid() {
   const [shuffledNumbers, setShuffledNumbers] = useState(() =>
     generateShuffledNumArr(),
   )
+
+  useEffect(() => {
+    if (currentNum === 1) {
+      return
+    }
+
+    document
+      .getElementById(`square-${currentNum - 1}`)
+      ?.classList.remove('current')
+
+    document.getElementById(`square-${currentNum}`)?.classList.add('current')
+  }, [currentNum])
 
   function clickHandler(event: React.MouseEvent | React.KeyboardEvent) {
     const clickedNum = Number(event.currentTarget.textContent)

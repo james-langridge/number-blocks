@@ -18,7 +18,7 @@
   font-size: 75px;
   background-color: #306230;
   border-radius: 5px;
-  box-shadow: 2px 2px 0 #0f380f;
+  box-shadow: 5px 5px 0 #0f380f;
   text-shadow: 1px 1px #0f380f;
   transition: all 0.1s ease;
 }
@@ -26,6 +26,20 @@
 .cell:active {
   box-shadow: 1px 1px 0 #0f380f;
   transform: translateY(5px) translateX(5px);
+}
+
+.cell:active:not(.current) {
+  animation: vibrate 0.2s linear infinite;
+  background-color: #0f380f;
+  color: #306230;
+}
+
+@keyframes vibrate {
+  0% { transform: translateY(5px) translateX(5px) rotate(3deg); }
+  25% { transform: translateY(5px) translateX(5px) rotate(-3deg); }
+  50% { transform: translateY(5px) translateX(5px) rotate(3deg); }
+  75% { transform: translateY(5px) translateX(5px) rotate(-3deg); }
+  100% { transform: translateY(5px) translateX(5px) rotate(3deg); }
 }
 
 .correct {
