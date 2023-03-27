@@ -3,12 +3,27 @@ import GridSquare from './GridSquare'
 import {generateShuffledNumArr} from '../lib/generateShuffledNumArr'
 import {useNavigate} from 'react-router-dom'
 
-export default function Grid() {
-  const [currentNum, setCurrentNum] = useState(1)
+interface GridProps {
+  props: {
+    shuffledNumbers: number[]
+    setShuffledNumbers: React.Dispatch<React.SetStateAction<number[]>>
+    currentNum: number
+    setCurrentNum: React.Dispatch<React.SetStateAction<number>>
+    guessedNums: number[]
+    setGuessedNums: React.Dispatch<React.SetStateAction<number[]>>
+  }
+}
+
+export default function Grid({props}: GridProps) {
+  const {
+    shuffledNumbers,
+    setShuffledNumbers,
+    currentNum,
+    setCurrentNum,
+    guessedNums,
+    setGuessedNums,
+  } = props
   const [status, setStatus] = useState('playing')
-  const [shuffledNumbers, setShuffledNumbers] = useState(() =>
-    generateShuffledNumArr(),
-  )
   const [lastFourNums, setLastFourNums] = useState<number[]>([])
   const navigate = useNavigate()
   const wrongSoundEffect = new Audio('/smb_bump.wav')
@@ -51,10 +66,15 @@ export default function Grid() {
 
   useEffect(() => {
     if (lastFourNums.toString() === '8,7,6,5') {
-      // TODO: save game state first
       navigate('/settings')
     }
   }, [lastFourNums, navigate])
+
+  useEffect(() => {
+    guessedNums.forEach(num =>
+      document.getElementById(`square-${num}`)?.classList.add('correct'),
+    )
+  }, [])
 
   async function clickHandler(event: React.MouseEvent | React.KeyboardEvent) {
     if (status === 'paused') {
@@ -72,6 +92,7 @@ export default function Grid() {
     }
 
     if (clickedNum === currentNum) {
+      setGuessedNums([...guessedNums, clickedNum])
       document.getElementById(`square-${clickedNum}`)?.classList.add('correct')
 
       if (currentNum === shuffledNumbers.length) {
@@ -83,6 +104,7 @@ export default function Grid() {
           document.getElementById(`square-${val}`)?.classList.remove('correct')
         })
         setShuffledNumbers(generateShuffledNumArr())
+        setGuessedNums([])
         setStatus('playing')
 
         return
