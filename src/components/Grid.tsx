@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import GridSquare from './GridSquare'
 import {generateShuffledNumArr} from '../lib/generateShuffledNumArr'
 import {useNavigate} from 'react-router-dom'
+import {playAudioAndWait} from '../lib/playAudioAndWait'
 
 interface GridProps {
   props: {
@@ -28,14 +29,6 @@ export default function Grid({props}: GridProps) {
   const navigate = useNavigate()
   const wrongSoundEffect = new Audio('/smb_bump.wav')
   const correctSoundEffect = new Audio('/smb_1-up.wav')
-
-  function playAudioAndWait(path: string) {
-    return new Promise(resolve => {
-      const audio = new Audio(path)
-      audio.addEventListener('ended', resolve)
-      void audio.play()
-    })
-  }
 
   useEffect(() => {
     if (currentNum === 1) {
