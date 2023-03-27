@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import GridSquare from './GridSquare'
 import {generateShuffledNumArr} from '../lib/generateShuffledNumArr'
+import {useNavigate} from 'react-router-dom'
 
 export default function Grid() {
   const [currentNum, setCurrentNum] = useState(1)
@@ -8,6 +9,8 @@ export default function Grid() {
   const [shuffledNumbers, setShuffledNumbers] = useState(() =>
     generateShuffledNumArr(),
   )
+  const [lastFourNums, setLastFourNums] = useState<number[]>([])
+  const navigate = useNavigate()
   const wrongSoundEffect = new Audio('/smb_bump.wav')
   const correctSoundEffect = new Audio('/smb_1-up.wav')
 
@@ -31,12 +34,36 @@ export default function Grid() {
     document.getElementById(`square-${currentNum}`)?.classList.add('current')
   }, [currentNum])
 
+  function updateLastFourNums(clickedNum: number) {
+    const arr = [...lastFourNums]
+
+    if (arr.length < 4) {
+      arr.push(clickedNum)
+      setLastFourNums(arr)
+
+      return
+    }
+
+    arr.shift()
+    arr.push(clickedNum)
+    setLastFourNums(arr)
+  }
+
+  useEffect(() => {
+    if (lastFourNums.toString() === '8,7,6,5') {
+      // TODO: save game state first
+      navigate('/settings')
+    }
+  }, [lastFourNums, navigate])
+
   async function clickHandler(event: React.MouseEvent | React.KeyboardEvent) {
     if (status === 'paused') {
       return
     }
 
     const clickedNum = Number(event.currentTarget.textContent)
+
+    updateLastFourNums(clickedNum)
 
     if (clickedNum !== currentNum) {
       void wrongSoundEffect.play()

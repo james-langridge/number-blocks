@@ -1,12 +1,16 @@
-import React from 'react'
 import './App.css'
 import Grid from './components/Grid'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import Settings from './components/Settings'
 
 function App() {
   return (
-    <div className="App">
-      <Grid />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Grid />} />
+        <Route path="/settings" element={<Settings />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
