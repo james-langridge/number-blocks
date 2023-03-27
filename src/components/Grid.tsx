@@ -4,9 +4,20 @@ import {generateShuffledNumArr} from '../lib/generateShuffledNumArr'
 
 export default function Grid() {
   const [currentNum, setCurrentNum] = useState(1)
+  const [status, setStatus] = useState('playing')
   const [shuffledNumbers, setShuffledNumbers] = useState(() =>
     generateShuffledNumArr(),
   )
+  const wrongSoundEffect = new Audio('/smb_bump.wav')
+  const correctSoundEffect = new Audio('/smb_1-up.wav')
+
+  function playAudioAndWait(path: string) {
+    return new Promise(resolve => {
+      const audio = new Audio(path)
+      audio.addEventListener('ended', resolve)
+      void audio.play()
+    })
+  }
 
   useEffect(() => {
     if (currentNum === 1) {
@@ -20,10 +31,16 @@ export default function Grid() {
     document.getElementById(`square-${currentNum}`)?.classList.add('current')
   }, [currentNum])
 
-  function clickHandler(event: React.MouseEvent | React.KeyboardEvent) {
+  async function clickHandler(event: React.MouseEvent | React.KeyboardEvent) {
+    if (status === 'paused') {
+      return
+    }
+
     const clickedNum = Number(event.currentTarget.textContent)
 
-    if (clickedNum < currentNum) {
+    if (clickedNum !== currentNum) {
+      void wrongSoundEffect.play()
+
       return
     }
 
@@ -31,15 +48,20 @@ export default function Grid() {
       document.getElementById(`square-${clickedNum}`)?.classList.add('correct')
 
       if (currentNum === shuffledNumbers.length) {
+        setStatus('paused')
+        await playAudioAndWait('/smb_stage_clear.wav')
+
         setCurrentNum(1)
         shuffledNumbers.forEach(val => {
           document.getElementById(`square-${val}`)?.classList.remove('correct')
         })
         setShuffledNumbers(generateShuffledNumArr())
+        setStatus('playing')
 
         return
       }
 
+      void correctSoundEffect.play()
       setCurrentNum(() => currentNum + 1)
     }
   }

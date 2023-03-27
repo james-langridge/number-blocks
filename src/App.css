@@ -23,12 +23,12 @@
   transition: all 0.1s ease;
 }
 
-.cell:active {
+.cell:active:not(.correct) {
   box-shadow: 1px 1px 0 #0f380f;
   transform: translateY(5px) translateX(5px);
 }
 
-.cell:active:not(.current) {
+.cell:active:not(.current):not(.correct) {
   animation: vibrate 0.2s linear infinite;
   background-color: #0f380f;
   color: #306230;

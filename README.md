@@ -18,4 +18,4 @@ It is designed for mobile, and is not optimised for larger screens.  For best re
   - [ ] size of the grid
   - [ ] toggle between letters and numbers
   - [ ] childproof settings: to enter, adult must press digits that they read in words
-- [ ] Add sound effects
+- [x] Add sound effects
