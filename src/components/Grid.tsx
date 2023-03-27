@@ -8,22 +8,14 @@ interface GridProps {
   props: {
     shuffledNumbers: number[]
     setShuffledNumbers: React.Dispatch<React.SetStateAction<number[]>>
-    currentNum: number
-    setCurrentNum: React.Dispatch<React.SetStateAction<number>>
     guessedNums: number[]
     setGuessedNums: React.Dispatch<React.SetStateAction<number[]>>
   }
 }
 
 export default function Grid({props}: GridProps) {
-  const {
-    shuffledNumbers,
-    setShuffledNumbers,
-    currentNum,
-    setCurrentNum,
-    guessedNums,
-    setGuessedNums,
-  } = props
+  const {shuffledNumbers, setShuffledNumbers, guessedNums, setGuessedNums} =
+    props
   const [status, setStatus] = useState('playing')
   const [lastFourNums, setLastFourNums] = useState<number[]>([])
   const navigate = useNavigate()
@@ -31,6 +23,12 @@ export default function Grid({props}: GridProps) {
   const correctSoundEffect = new Audio('/smb_1-up.wav')
 
   useEffect(() => {
+    guessedNums.forEach(num =>
+      document.getElementById(`square-${num}`)?.classList.add('correct'),
+    )
+
+    const currentNum = guessedNums.length ? guessedNums[0] + 1 : 1
+
     if (currentNum === 1) {
       return
     }
@@ -40,7 +38,7 @@ export default function Grid({props}: GridProps) {
       ?.classList.remove('current')
 
     document.getElementById(`square-${currentNum}`)?.classList.add('current')
-  }, [currentNum])
+  }, [guessedNums])
 
   // Navigate to settings if the user has entered the correct code
   useEffect(() => {
@@ -48,15 +46,6 @@ export default function Grid({props}: GridProps) {
       navigate('/settings')
     }
   }, [lastFourNums, navigate])
-
-  // This useEffect re-adds the 'correct' class name to grid tiles if the page is re-rendered
-  // Eg, when switching routes from settings page. The dep arr is empty as it should only run
-  // on the first render after a route change.
-  useEffect(() => {
-    guessedNums.forEach(num =>
-      document.getElementById(`square-${num}`)?.classList.add('correct'),
-    )
-  }, [])
 
   function updateLastFourNums(clickedNum: number) {
     const arr = [...lastFourNums]
@@ -80,6 +69,8 @@ export default function Grid({props}: GridProps) {
     }
 
     const clickedNum = Number(event.currentTarget.textContent)
+    const currentNum = guessedNums.length ? guessedNums[0] + 1 : 1
+
     updateLastFourNums(clickedNum)
 
     if (clickedNum !== currentNum) {
@@ -89,8 +80,9 @@ export default function Grid({props}: GridProps) {
     }
 
     if (clickedNum === currentNum) {
-      setGuessedNums([...guessedNums, clickedNum])
-      document.getElementById(`square-${clickedNum}`)?.classList.add('correct')
+      const newGuessedNums = [...guessedNums]
+      newGuessedNums.unshift(clickedNum)
+      setGuessedNums(newGuessedNums)
 
       // Endgame logic
       if (currentNum === shuffledNumbers.length) {
@@ -98,7 +90,6 @@ export default function Grid({props}: GridProps) {
         await playAudioAndWait('/smb_stage_clear.wav')
 
         // Reset logic
-        setCurrentNum(1)
         shuffledNumbers.forEach(val => {
           document.getElementById(`square-${val}`)?.classList.remove('correct')
         })
@@ -110,7 +101,6 @@ export default function Grid({props}: GridProps) {
       }
 
       void correctSoundEffect.play()
-      setCurrentNum(() => currentNum + 1)
     }
   }
 

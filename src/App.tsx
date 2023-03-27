@@ -9,13 +9,10 @@ function App() {
   const [shuffledNumbers, setShuffledNumbers] = useState(() =>
     generateShuffledNumArr(),
   )
-  const [currentNum, setCurrentNum] = useState(1)
   const [guessedNums, setGuessedNums] = useState<number[]>([])
   const gridProps = {
     shuffledNumbers,
     setShuffledNumbers,
-    currentNum,
-    setCurrentNum,
     guessedNums,
     setGuessedNums,
   }
