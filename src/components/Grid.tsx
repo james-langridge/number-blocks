@@ -42,6 +42,22 @@ export default function Grid({props}: GridProps) {
     document.getElementById(`square-${currentNum}`)?.classList.add('current')
   }, [currentNum])
 
+  // Navigate to settings if the user has entered the correct code
+  useEffect(() => {
+    if (lastFourNums.toString() === '8,7,6,5') {
+      navigate('/settings')
+    }
+  }, [lastFourNums, navigate])
+
+  // This useEffect re-adds the 'correct' class name to grid tiles if the page is re-rendered
+  // Eg, when switching routes from settings page. The dep arr is empty as it should only run
+  // on the first render after a route change.
+  useEffect(() => {
+    guessedNums.forEach(num =>
+      document.getElementById(`square-${num}`)?.classList.add('correct'),
+    )
+  }, [])
+
   function updateLastFourNums(clickedNum: number) {
     const arr = [...lastFourNums]
 
@@ -57,25 +73,13 @@ export default function Grid({props}: GridProps) {
     setLastFourNums(arr)
   }
 
-  useEffect(() => {
-    if (lastFourNums.toString() === '8,7,6,5') {
-      navigate('/settings')
-    }
-  }, [lastFourNums, navigate])
-
-  useEffect(() => {
-    guessedNums.forEach(num =>
-      document.getElementById(`square-${num}`)?.classList.add('correct'),
-    )
-  }, [])
-
   async function clickHandler(event: React.MouseEvent | React.KeyboardEvent) {
+    // Disable clicks during endgame tune
     if (status === 'paused') {
       return
     }
 
     const clickedNum = Number(event.currentTarget.textContent)
-
     updateLastFourNums(clickedNum)
 
     if (clickedNum !== currentNum) {
@@ -88,10 +92,12 @@ export default function Grid({props}: GridProps) {
       setGuessedNums([...guessedNums, clickedNum])
       document.getElementById(`square-${clickedNum}`)?.classList.add('correct')
 
+      // Endgame logic
       if (currentNum === shuffledNumbers.length) {
         setStatus('paused')
         await playAudioAndWait('/smb_stage_clear.wav')
 
+        // Reset logic
         setCurrentNum(1)
         shuffledNumbers.forEach(val => {
           document.getElementById(`square-${val}`)?.classList.remove('correct')
